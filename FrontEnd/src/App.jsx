@@ -15,16 +15,16 @@ function App() {
     <Router>
       <Routes>
 
-        
+
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/trips/:id" element={<TripDetail />} />
         <Route path="/more-trip" element={<MoreTrips />} />
         <Route path="/best-trip" element={<BestTrips />} />
-        
+
         <Route path="/sign-in" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        
+
       </Routes>
     </Router>
   );

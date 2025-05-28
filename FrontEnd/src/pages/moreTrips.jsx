@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import ScrollToTop from "../components/ScrollToTop";
 
 const MoreTrips = () => {
   return (
@@ -9,7 +10,7 @@ const MoreTrips = () => {
         <div>
             <p className="text-black text-3xl font-bold text-center p-10">Pilih jadwal pendakian gunung impian anda!</p>
         </div>
-    
+
         <div className='w-full flex justify-center mt-5'>
             <ul className='list-none grid grid-cols-4 gap-5 overflow-x-auto whitespace-nowrap scrollbar-hide px-5'>
                 <li>
@@ -37,7 +38,7 @@ const MoreTrips = () => {
                         </div>
                     </Link>
                 </li>
-                            
+
                 <li>
                     <Link to="/trips/kerinci">
                         <div className="w-70 h-110 bg-amber-50 rounded-2xl overflow-hidden drop-shadow-xl">
@@ -50,7 +51,7 @@ const MoreTrips = () => {
                         </div>
                     </Link>
                 </li>
-    
+
                 <li>
                     <Link to="/trips/gede">
                         <div className="w-70 h-110 bg-amber-50 rounded-2xl overflow-hidden drop-shadow-xl">
@@ -63,7 +64,7 @@ const MoreTrips = () => {
                         </div>
                     </Link>
                 </li>
-    
+
                 <li>
                     <Link to="/trips/pangrango">
                         <div className="w-70 h-110 bg-amber-50 rounded-2xl overflow-hidden drop-shadow-xl">
@@ -76,7 +77,7 @@ const MoreTrips = () => {
                         </div>
                     </Link>
                 </li>
-    
+
                 <li>
                     <Link to="/trips/sumbing">
                         <div className="w-70 h-110 bg-amber-50 rounded-2xl overflow-hidden drop-shadow-xl">
@@ -91,6 +92,7 @@ const MoreTrips = () => {
                 </li>
             </ul>
         </div>
+        <ScrollToTop />
     </section>
   );
 };

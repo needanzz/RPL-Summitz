@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import ScrollToTop from "../components/ScrollToTop";
 
 const About = () => {
   const teamMembers = [
@@ -154,7 +155,9 @@ const About = () => {
             </div>
         </section>
       </div>
+      <ScrollToTop />
     </section>
+
   );
 };
 
