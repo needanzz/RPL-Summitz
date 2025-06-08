@@ -19,6 +19,13 @@ class BookingResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-inbox-arrow-down';
 
+    protected static ?string $navigationGroup = 'Customer Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 9;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -40,15 +47,15 @@ class BookingResource extends Resource
         return $table
             ->columns([
                 //
-                tables\Columns\TextColumn::make('user.name')->label('Nama Pengguna'),
-                tables\Columns\TextColumn::make('schedule.trip.name')->label('Nama Trip'),
+                tables\Columns\TextColumn::make('user.name')->label('Nama Pengguna')->searchable(),
+                tables\Columns\TextColumn::make('schedule.trip.name')->label('Nama Trip')->searchable(),
                 tables\Columns\TextColumn::make('schedule.departure_date')->label('Tanggal Keberangkatan')->date(),
                 tables\Columns\TextColumn::make('total_price')->label('Total Harga')->money('IDR', locale: 'id'),
-                tables\Columns\BadgeColumn::make('status')->label('Status')->colors([
+                tables\Columns\TextColumn::make('status')->label('Status')->badge()->colors(fn(string $state):string=>match($state){
                     'pending' => 'warning',
                     'confirmed' => 'success',
                     'cancelled' => 'danger',
-                ]),
+                }),
                 tables\Columns\TextColumn::make('created_at')->label('Tanggal Booking')->dateTime(),
             ])
             ->filters([

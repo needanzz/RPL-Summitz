@@ -19,6 +19,13 @@ class ItineraryResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-clipboard-document-list';
 
+    protected static ?string $navigationGroup = 'Admin Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 4;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form

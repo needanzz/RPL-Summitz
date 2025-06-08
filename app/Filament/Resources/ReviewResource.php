@@ -19,6 +19,13 @@ class ReviewResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chat-bubble-left-right';
 
+    protected static ?string $navigationGroup = 'Customer Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 10;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form
@@ -32,8 +39,8 @@ class ReviewResource extends Resource
         return $table
             ->columns([
                 //
-                tables\Columns\TextColumn::make('user.name')->label('Nama Pengguna'),
-                tables\Columns\TextColumn::make('schedule.trip.name')->label('Nama Trip'),
+                tables\Columns\TextColumn::make('user.name')->label('Nama Pengguna')->searchable(),
+                tables\Columns\TextColumn::make('schedule.trip.name')->label('Nama Trip')->searchable(),
                 tables\Columns\TextColumn::make('schedule.departure_date')->label('Tanggal Keberangkatan')->date(),
                 tables\Columns\TextColumn::make('rating'),
                 tables\Columns\TextColumn::make('comment'),

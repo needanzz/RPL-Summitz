@@ -19,6 +19,13 @@ class TripResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-newspaper';
 
+    protected static ?string $navigationGroup = 'Admin Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 3;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form

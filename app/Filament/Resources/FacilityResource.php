@@ -19,6 +19,13 @@ class FacilityResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-plus-circle';
 
+    protected static ?string $navigationGroup = 'Admin Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 5;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form
