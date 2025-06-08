@@ -19,6 +19,13 @@ class ScheduleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-calendar-days';
 
+    protected static ?string $navigationGroup = 'Admin Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 7;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form

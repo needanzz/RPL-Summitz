@@ -19,6 +19,13 @@ class MountainResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-chevron-up';
 
+    protected static ?string $navigationGroup = 'Admin Zone';
+
+    public static function getNavigationSort(): ?int
+    {
+        return 2;
+    } 
+
     public static function form(Form $form): Form
     {
         return $form
