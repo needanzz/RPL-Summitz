@@ -10,6 +10,7 @@ class TripController extends Controller
     public function index()
     {
         $trips = Trip::all();
-        return response (['data' => $trips ]);
+        return response()->json($trips);
+        // return response (['data' => $trips ]);
     }
 }
