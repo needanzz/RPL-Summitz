@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     //
-    protected $fillable = [
-        'mountain_id',
-        'title',
-        'duration_day',
-        'price',
-        'main_image',
-        'description',
+    protected $fillable = ['title'
+        // 'mountain_id',
+        // 'title',
+        // 'duration_day',
+        // 'price',
+        // 'main_image',
+        // 'description',
     ];
 
     public function mountain()
