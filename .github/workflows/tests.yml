@@ -38,7 +38,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
-          php-version: 8.3
           tools: composer:v2
           coverage: xdebug
 
@@ -54,7 +53,6 @@ jobs:
       - name: Build Assets
         run: npm run build
 
-      - name: Install PHP Dependencies
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
@@ -76,7 +74,6 @@ jobs:
       - name: Run Migrations
         run: php artisan migrate --force
 
-      - name: Run Tests
       - name: Run Migrations
         run: php artisan migrate --force
 
