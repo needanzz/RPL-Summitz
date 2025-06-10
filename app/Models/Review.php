@@ -14,12 +14,12 @@ class Review extends Model
         'comment',
     ];
 
-    public function customer()
+    public function user()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function trip()
+    public function schedule()
     {
         return $this->belongsTo(Trip::class);
     }
