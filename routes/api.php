@@ -52,22 +52,6 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::post('/payments/store', [PaymentController::class, 'store']);
 });
 
-// Route::post('/login', function (Request $request) {
-//     $request->validate([
-//         'email' => 'required|email',
-//         'password' => 'required',
-//     ]);
-
-//     $user = \App\Models\User::where('email', $request->email)->first();
-
-//     if (!$user || !Hash::check($request->password, $user->password)) {
-//         return response()->json(['message' => 'Invalid credentials'], 401);
-//     }
-
-//     Auth::login($user); // session based
-
-//     return response()->json(['message' => 'Login successful']);
-// });
 Route::post('/login', [AuthController::class, 'login']);
 // Route::middleware('web')->post('/login', [AuthController::class, 'login']);
 
