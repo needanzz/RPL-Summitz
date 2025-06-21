@@ -7,13 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 class Trip extends Model
 {
     //
-    protected $fillable = ['title'
-        // 'mountain_id',
-        // 'title',
-        // 'duration_day',
-        // 'price',
-        // 'main_image',
-        // 'description',
+    protected $fillable = ['title',
+        'mountain_id',
+        'title',
+        'duration_day',
+        'price',
+        'main_image',
+        'description',
+    ];
+
+    protected $casts = [
+        'main_image' => 'array',
     ];
 
     public function mountain()

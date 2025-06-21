@@ -63,5 +63,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 
+// Route::post('/login', function (Request $request) {
+//     $request->validate([
+//         'email' => 'required|email',
+//         'password' => 'required',
+//     ]);
 
+//     $user = \App\Models\User::where('email', $request->email)->first();
+
+//     if (!$user || !Hash::check($request->password, $user->password)) {
+//         return response()->json(['message' => 'Invalid credentials'], 401);
+//     }
+
+//     Auth::login($user); // session based
+
+//     return response()->json(['message' => 'Login successful']);
+// });
 // Route::get('/trip', [TripController::class, 'index']);

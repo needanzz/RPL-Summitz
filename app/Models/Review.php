@@ -9,6 +9,7 @@ class Review extends Model
     //
     protected $fillable = [
         'user_id',
+        'trip_id',
         'schedule_id',
         'rating',
         'comment',
@@ -19,8 +20,13 @@ class Review extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function schedule()
+    public function trip()
     {
         return $this->belongsTo(Trip::class);
+    }
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
     }
 }
