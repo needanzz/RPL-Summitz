@@ -96,9 +96,12 @@ class TripResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\ItinerariesRelationManager::class,
+            RelationManagers\FacilitiesRelationManager::class,
         ];
     }
+
+
 
     public static function getPages(): array
     {

@@ -11,4 +11,9 @@ class Itinerary extends Model
         'day',
         'activity',
     ];
+
+    public function trips()
+    {
+        return $this->belongsToMany(Trip::class); 
+    }
 }

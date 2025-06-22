@@ -41,7 +41,7 @@ class ReviewResource extends Resource
                 //
                 tables\Columns\TextColumn::make('user.name')->label('Nama Pengguna')->searchable(),
                 tables\Columns\TextColumn::make('trip.title')->label('Nama Trip')->searchable(),
-                tables\Columns\TextColumn::make('schedule.trip.name')->label('Tanggal Trip')->searchable(),
+                tables\Columns\TextColumn::make('schedule.trip')->label('Tanggal Trip')->searchable(),
                 tables\Columns\TextColumn::make('schedule.departure_date')->label('Tanggal Keberangkatan')->date(),
                 tables\Columns\TextColumn::make('rating'),
                 tables\Columns\TextColumn::make('comment'),

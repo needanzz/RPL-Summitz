@@ -32,12 +32,12 @@ class Trip extends Model
 
     public function itineraries()
     {
-        return $this->hasMany(itinerary::class);
+        return $this->belongsToMany(Itinerary::class); 
     }
 
     public function facilities()
     {
-        return $this->hasMany(facility::class);
+        return $this->belongsToMany(facility::class);
     }
 
     public function galleries()

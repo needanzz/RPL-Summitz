@@ -10,4 +10,9 @@ class Facility extends Model
     protected $fillable = [
         'item',
     ];
+
+    public function trips()
+    {
+        return $this->belongsToMany(Trip::class); 
+    }
 }
