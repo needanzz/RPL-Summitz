@@ -16,9 +16,14 @@ class Trip extends Model
         'description',
     ];
 
-    protected $casts = [
-        'main_image' => 'array',
-    ];
+    protected $appends = ['main_image_url']; // accessor ini akan ikut di JSON
+
+    public function getMainImageUrlAttribute(): string
+    {
+        return $this->main_image
+            ? asset('storage/' . $this->main_image)
+            : asset('images/default.png'); // kalau mau gambar default
+    }
 
     public function mountain()
     {
@@ -32,17 +37,18 @@ class Trip extends Model
 
     public function itineraries()
     {
-        return $this->belongsToMany(Itinerary::class); 
+        return $this->belongsToMany(\App\Models\Itinerary::class);
     }
+
 
     public function facilities()
     {
-        return $this->belongsToMany(facility::class);
+        return $this->belongsToMany(Facility::class);
     }
 
     public function galleries()
     {
-        return $this->hasMany(gallery::class);
+        return $this->hasMany(Gallery::class);
     }
 
     public function bookings()

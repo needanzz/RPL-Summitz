@@ -12,6 +12,13 @@ class Itinerary extends Model
         'activity',
     ];
 
+    protected static ?string $title = 'activity';
+
+    public function getTitleAttribute(): string
+    {
+        return $this->activity;
+    }
+
     public function trips()
     {
         return $this->belongsToMany(Trip::class); 

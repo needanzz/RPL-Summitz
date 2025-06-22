@@ -81,4 +81,15 @@ class ItineraryResource extends Resource
             'edit' => Pages\EditItinerary::route('/{record}/edit'),
         ];
     }
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['activity'];
+    }
+
+    public static function getTitleAttribute(): string
+    {
+        return 'activity';
+    }
+
 }

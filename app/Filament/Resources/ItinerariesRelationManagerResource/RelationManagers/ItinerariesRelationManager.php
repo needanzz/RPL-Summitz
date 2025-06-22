@@ -31,7 +31,12 @@ class ItinerariesRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('activity')->label('Kegiatan')->searchable(),
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make(), // untuk lampirkan itinerary lama
+                Tables\Actions\AttachAction::make()
+                ->recordSelect(
+                fn (Forms\Components\Select $select) => $select
+                ->options(
+                    \App\Models\Itinerary::all()->pluck('activity', 'id')
+                )),
                 Tables\Actions\CreateAction::make(), // untuk buat itinerary baru
             ])
             ->actions([
