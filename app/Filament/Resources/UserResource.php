@@ -68,19 +68,22 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('email')
                     ->label('Email')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('is_admin')
+                    ->label('Role')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Created At')
                     ->dateTime()
                     ->sortable(),
-                Tables\Columns\BooleanColumn::make('deleted_at')
-                    ->label('Deleted')
-                    ->sortable(),
+                // Tables\Columns\BooleanColumn::make('deleted_at')
+                //     ->label('Deleted')
+                //     ->sortable(),
             ])
             ->filters([
                 // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                // Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
                 // Tables\Actions\RestoreAction::make(),
                 // Tables\Actions\ForceDeleteAction::make(),

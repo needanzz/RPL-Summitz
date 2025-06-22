@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Payment;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use Midtrans\Config;
 use Midtrans\Snap;
@@ -22,34 +23,43 @@ class PaymentController extends Controller
      * Generate Snap Token Midtrans
      */
     public function createTransaction(Request $request)
-    {
-        $request->validate([
-            'gross_amount' => 'required|numeric',
-            'cust_name' => 'required|string',
-            'email' => 'required|email',
-        ]);
+{
+    $booking = Booking::findOrFail($request->booking_id);
 
-        $params = [
-            'transaction_details' => [
-                'order_id' => uniqid('ORDER-'),
-                'gross_amount' => $request->gross_amount,
-            ],
-            'customer_details' => [
-                'first_name' => $request->cust_name,
-                'email' => $request->email,
-            ],
-        ];
+    $order_id = 'ORDER-'.$booking->id.'-'.time();
+    $gross_amount = $booking->total_price;
 
-        try {
-            $snapToken = Snap::getSnapToken($params);
-            return response()->json([
-                'snap_token' => $snapToken,
-                'order_id' => $params['transaction_details']['order_id']
-            ]);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
+    $params = [
+        'transaction_details' => [
+            'order_id' => $order_id,
+            'gross_amount' => $gross_amount,
+        ],
+        'customer_details' => [
+            'first_name' => $booking->customer_name,
+            'email' => $booking->customer_email,
+        ],
+        'item_details' => [[
+            'id' => $booking->id,
+            'price' => $gross_amount,
+            'quantity' => 1,
+            'name' => 'Booking trip '.$booking->id,
+        ]],
+    ];
+
+    $snap_token = \Midtrans\Snap::getSnapToken($params);
+
+    Payment::create([
+        'booking_id' => $booking->id,
+        'transaction_id' => null,
+        'order_id' => $order_id,
+        'payment_method' => 'midtrans',
+        'payment_status' => 'pending',
+        'gross_amount' => $gross_amount,
+    ]);
+
+    return response()->json(['snap_token' => $snap_token]);
+}
+
 
     /**
      * Simpan data transaksi setelah pembayaran
@@ -78,5 +88,45 @@ class PaymentController extends Controller
         ]);
 
         return response()->json(['message' => 'Payment recorded.', 'data' => $payment]);
+    }
+
+    public function midtransCallback(Request $request)
+    {
+        $notification = new \Midtrans\Notification();   
+        $order_id      = $notification->order_id;
+        $status        = $notification->transaction_status;
+        $fraud_status  = $notification->fraud_status;
+        $gross_amount  = $notification->gross_amount;
+
+        // Validasi signature
+        $signature = $request->signature_key;
+        $expectedSignature = hash(
+            "sha512",
+            $order_id . $notification->status_code . $gross_amount . config('midtrans.server_key')
+        );
+
+        if ($signature !== $expectedSignature) {
+            return response()->json(['message' => 'Invalid signature'], 403);
+        }
+
+        $payment = Payment::where('order_id', $order_id)->firstOrFail();
+
+        $payment->update([
+            'payment_status' => $status,
+            'fraud_status'   => $fraud_status,
+            'paid_at'        => now(),
+        ]);
+
+        // Map status Midtrans ke status booking
+        $newBookingStatus = 'pending';
+        if ($status === 'settlement' || $status === 'capture') {
+            $newBookingStatus = 'confirmed';
+        } elseif (in_array($status, ['deny', 'expire', 'cancel'])) {
+            $newBookingStatus = 'cancelled';
+        }
+
+        $payment->booking->update(['status' => $newBookingStatus]);
+
+        return response()->json(['message' => 'OK'], 200);
     }
 }

@@ -55,6 +55,8 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
 
+            ->authGuard('web')
+            ->brandName('Summitz Admin Panel')
             ->spa()
             ->sidebarFullyCollapsibleOnDesktop()
             ;

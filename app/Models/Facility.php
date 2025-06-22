@@ -8,12 +8,6 @@ class Facility extends Model
 {
     //
     protected $fillable = [
-        'trip_id',
         'item',
     ];
-
-    public function trip()
-    {
-        return $this->belongsTo(Trip::class);
-    }
 }

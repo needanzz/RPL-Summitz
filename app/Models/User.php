@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -44,6 +45,21 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        // Hanya admin yang bisa akses panel admin
+        if ($panel->getId() === 'admin') {
+            return $this->is_admin;
+        }
+        return true;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
     }
 }

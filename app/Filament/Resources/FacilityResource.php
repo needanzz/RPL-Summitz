@@ -31,11 +31,6 @@ class FacilityResource extends Resource
         return $form
             ->schema([
                 //
-                forms\Components\Select::make('trip_id')
-                ->label('Pilih Trip')
-                ->relationship('trip', 'title')
-                ->required(),
-
                 forms\Components\TextInput::make('item')
                 ->label('Fasilitas')
                 ->placeholder('Input Fasilitas')
@@ -48,7 +43,6 @@ class FacilityResource extends Resource
         return $table
             ->columns([
                 //
-                tables\Columns\TextColumn::make('trip_id'),
                 tables\Columns\TextColumn::make('item'),
             ])
             ->filters([

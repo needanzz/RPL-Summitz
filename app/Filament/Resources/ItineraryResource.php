@@ -31,11 +31,6 @@ class ItineraryResource extends Resource
         return $form
             ->schema([
                 //
-                forms\Components\Select::make('trip_id')
-                ->label('Pilih Trip')
-                ->relationship('trip', 'title')
-                ->required(),
-
                 forms\Components\TextInput::make('day')
                 ->label('Hari ke-')
                 ->placeholder('Input Hari ke-')
@@ -53,7 +48,6 @@ class ItineraryResource extends Resource
         return $table
             ->columns([
                 //
-                tables\Columns\TextColumn::make('trip_id')->searchable(),
                 tables\Columns\TextColumn::make('day'),
                 tables\Columns\TextColumn::make('activity')->searchable(),
             ])

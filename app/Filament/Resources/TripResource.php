@@ -53,13 +53,15 @@ class TripResource extends Resource
 
                 forms\Components\FileUpload::make('main_image')
                 ->image()
+                ->disk('public')
+                ->directory('trips')
                 ->label('Gambar Trip')
                 ->placeholder('Input Gambar Trip')
                 ->required(),
 
-                forms\Components\RichEditor::make('description')
-                ->label('Deskripsi')
-                ->placeholder('Input Deskripsi')
+                forms\Components\TextInput::make('description')
+                ->label('Lokasi')
+                ->placeholder('Input Lokasi')
                 ->required(),
             ]);
     }

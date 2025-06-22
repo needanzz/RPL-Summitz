@@ -41,7 +41,7 @@ class MountainResource extends Resource
                 ->placeholder('Input Nama Gunung')
                 ->required(),
 
-                forms\Components\RichEditor::make('description')
+                forms\Components\TextInput::make('description')
                 ->label('Deskripsi')
                 ->placeholder('Tambahkan Deskripsi')
                 ->required(),
