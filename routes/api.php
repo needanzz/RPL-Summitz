@@ -31,6 +31,11 @@ use App\Http\Controllers\UserController;
 // //     return 'Hello';
 // // });
 
+Route::get('/status', function () {
+    return ['status' => 'ok'];
+});
+
+
 Route::middleware('api')->get('/ping', function () {
     return response()->json([
         'message' => 'API is working',
