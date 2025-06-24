@@ -23,16 +23,13 @@ class FacilitiesRelationManager extends RelationManager
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('item')->label('Item')->searchable(),
+                Tables\Columns\TextColumn::make('item')
+                    ->label('Item')
+                    ->searchable(),
             ])
             ->headerActions([
-                Tables\Actions\AttachAction::make()
-                ->recordSelect(
-                fn (Forms\Components\Select $select) => $select
-                ->options(
-                    \App\Models\Facility::all()->pluck('item', 'id')
-                )), 
-                Tables\Actions\CreateAction::make(), 
+                Tables\Actions\AttachAction::make(),
+                Tables\Actions\CreateAction::make(),
             ])
             ->actions([
                 Tables\Actions\DetachAction::make(),

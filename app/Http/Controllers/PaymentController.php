@@ -20,48 +20,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * Generate Snap Token Midtrans
-     */
-    public function createTransaction(Request $request)
-{
-    $booking = Booking::findOrFail($request->booking_id);
-
-    $order_id = 'ORDER-'.$booking->id.'-'.time();
-    $gross_amount = $booking->total_price;
-
-    $params = [
-        'transaction_details' => [
-            'order_id' => $order_id,
-            'gross_amount' => $gross_amount,
-        ],
-        'customer_details' => [
-            'first_name' => $booking->customer_name,
-            'email' => $booking->customer_email,
-        ],
-        'item_details' => [[
-            'id' => $booking->id,
-            'price' => $gross_amount,
-            'quantity' => 1,
-            'name' => 'Booking trip '.$booking->id,
-        ]],
-    ];
-
-    $snap_token = \Midtrans\Snap::getSnapToken($params);
-
-    Payment::create([
-        'booking_id' => $booking->id,
-        'transaction_id' => null,
-        'order_id' => $order_id,
-        'payment_method' => 'midtrans',
-        'payment_status' => 'pending',
-        'gross_amount' => $gross_amount,
-    ]);
-
-    return response()->json(['snap_token' => $snap_token]);
-}
-
-
-    /**
      * Simpan data transaksi setelah pembayaran
      */
     public function store(Request $request)
@@ -93,16 +51,18 @@ class PaymentController extends Controller
     public function midtransCallback(Request $request)
     {
         $notification = new \Midtrans\Notification();   
+
         $order_id      = $notification->order_id;
         $status        = $notification->transaction_status;
         $fraud_status  = $notification->fraud_status;
         $gross_amount  = $notification->gross_amount;
+        $status_code = $notification->status_code;
 
         // Validasi signature
         $signature = $request->signature_key;
         $expectedSignature = hash(
             "sha512",
-            $order_id . $notification->status_code . $gross_amount . config('midtrans.server_key')
+            $order_id . $status_code . $gross_amount . config('midtrans.server_key')
         );
 
         if ($signature !== $expectedSignature) {

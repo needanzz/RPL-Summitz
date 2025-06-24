@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Midtrans\Snap;
+use App\Models\Payment;
+use Midtrans\Config;
 
 class BookingController extends Controller
 {
@@ -50,9 +53,43 @@ class BookingController extends Controller
     // load relasi untuk output lebih lengkap
     $booking->load(['user', 'schedule.trip']);
 
+    // Midtrans order_id unik
+    $order_id = 'ORDER-'.$booking->id.'-'.time();
+
+    // Parameter snap
+    $params = [
+        'transaction_details' => [
+            'order_id'     => $order_id,
+            'gross_amount' => $total_price,
+        ],
+        'customer_details' => [
+            'first_name' => $validated['customer_name'],
+            'email'      => $validated['customer_email'],
+        ],
+        'item_details' => [[
+            'id'       => $booking->id,
+            'price'    => $total_price,
+            'quantity' => 1,
+            'name'     => 'Booking trip '.$booking->id,
+        ]],
+    ];
+
+    // Buat snap token
+    $snap_token = Snap::getSnapToken($params);
+
+    // Simpan payment
+    Payment::create([
+        'booking_id'     => $booking->id,
+        'order_id'       => $order_id,
+        'payment_method' => 'midtrans',
+        'payment_status' => 'pending',
+        'gross_amount'   => $total_price,
+    ]);
+
     return response()->json([
         'message' => 'Booking created successfully',
         'data'    => $booking,
+        'snapToken' => $snap_token,
     ], 201);
 }
 

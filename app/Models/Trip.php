@@ -25,6 +25,10 @@ class Trip extends Model
             : asset('images/default.png'); // kalau mau gambar default
     }
 
+    protected $casts = [
+        'main_image' => 'array', // atau 'json'
+    ];
+
     public function mountain()
     {
         return $this->belongsTo(Mountain::class);

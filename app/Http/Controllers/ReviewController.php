@@ -10,7 +10,7 @@ class ReviewController extends Controller
     // Menampilkan semua review
     public function index()
     {
-        $reviews = Review::with(['customer', 'schedule.trip'])->get();
+        $reviews = Review::with(['user', 'trip'])->get();
         return response()->json(['data' => $reviews]);
     }
 
@@ -18,8 +18,8 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'customer_id' => 'required|exists:customers,id',
-            'schedule_id' => 'required|exists:schedules,id',
+            'user_id' => 'required|exists:users,id',
+            'trip_id' => 'required|exists:trips,id',
             'rating' => 'required|numeric|min:1|max:5',
             'comment' => 'nullable|string',
         ]);
@@ -31,7 +31,7 @@ class ReviewController extends Controller
     // Menampilkan satu review
     public function show($id)
     {
-        $review = Review::with(['customer', 'schedule.trip'])->findOrFail($id);
+        $review = Review::with(['user', 'trip'])->findOrFail($id);
         return response()->json(['data' => $review]);
     }
 

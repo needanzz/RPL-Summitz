@@ -10,7 +10,10 @@ class TripController extends Controller
     // Tampilkan semua trip
     public function index()
     {
-        $trips = Trip::with(['mountain.province', 'schedules', 'itineraries', 'facilities', 'galleries', 'reviews'])->get();
+        $trips = Trip::with(['mountain.province', 'schedules', 'itineraries', 'facilities', 'galleries', 'reviews'])
+        ->withAvg('reviews', 'rating')
+        ->orderByDesc('reviews_avg_rating')
+        ->get();
 
         return response()->json([
             'status' => 'success',

@@ -11,6 +11,11 @@ class Facility extends Model
         'item',
     ];
 
+    public function getTitleAttribute(): string
+    {
+        return $this->activity;
+    }
+    
     public function trips()
     {
         return $this->belongsToMany(Trip::class); 

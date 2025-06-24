@@ -7,9 +7,16 @@ use Illuminate\Http\Request;
 
 class ScheduleController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $schedules = Schedule::all();
+        $query = Schedule::query();
+
+        if ($request->has('trip_id')) {
+            $query->where('trip_id', $request->trip_id);
+        }
+
+        $schedules = $query->get();
+
         return response()->json([
             'status' => 'success',
             'data' => $schedules,
