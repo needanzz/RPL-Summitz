@@ -32,6 +32,10 @@ jobs:
       - name: Run Pint
         run: vendor/bin/pint
 
+      - name: Install PHP Dependencies
+        run: composer install --no-interaction --prefer-dist --optimize-autoloader
+
+
       # - name: Format Frontend
       #   run: npm run format
 
