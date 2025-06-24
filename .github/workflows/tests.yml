@@ -47,11 +47,11 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: Install Node Dependencies
-        run: npm ci
+      # - name: Install Node Dependencies
+      #   run: npm ci
 
-      - name: Build Assets
-        run: npm run build
+      # - name: Build Assets
+      #   run: npm run build
 
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
