@@ -2,13 +2,9 @@ name: tests
 
 on:
   push:
-    branches:
-      - develop
-      - main
+    branches: [ develop, main ]
   pull_request:
-    branches:
-      - develop
-      - main
+    branches: [ develop, main ]
 
 jobs:
   ci:
@@ -17,8 +13,7 @@ jobs:
     services:
       mysql:
         image: mysql:8.0
-        ports:
-          - 3306:3306
+        ports: [ 3306:3306 ]
         env:
           MYSQL_DATABASE: db-summitz
           MYSQL_USER: laravel
@@ -31,36 +26,20 @@ jobs:
           --health-retries=3
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.3
           tools: composer:v2
-          coverage: xdebug
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-
-      # - name: Install Node Dependencies
-      #   run: npm ci
-
-      # - name: Build Assets
-      #   run: npm run build
 
       - name: Install PHP Dependencies
         run: composer install --no-interaction --prefer-dist --optimize-autoloader
 
-      - name: Copy Environment File
-        run: cp .env.example .env
-
-      - name: Set Laravel Environment Database Config
+      - name: Prepare environment file
         run: |
+          cp .env.example .env
           echo "DB_CONNECTION=mysql" >> .env
           echo "DB_HOST=127.0.0.1" >> .env
           echo "DB_PORT=3306" >> .env
@@ -74,18 +53,5 @@ jobs:
       - name: Run Migrations
         run: php artisan migrate --force
 
-      - name: Run Migrations
-        run: php artisan migrate --force
-
       - name: Run Tests
         run: ./vendor/bin/phpunit
-
-      - name: Override Laravel .env DB Settings
-        run: |
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=summitz" >> .env
-          echo "DB_USERNAME=laravel" >> .env
-          echo "DB_PASSWORD=secret" >> .env
-
